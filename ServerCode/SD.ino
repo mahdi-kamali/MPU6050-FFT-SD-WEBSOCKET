@@ -14,10 +14,10 @@ void initSdCart() {
 
   String mpuHeader = "Sensor Name, Date, Time, AX, AY, AZ, GX, GY,GZ, Temperature (°C)";
 
-  setDataCsvHeaders("/Sensor_1.csv ", mpuHeader);
-  setDataCsvHeaders("/Sensor_2.csv ", mpuHeader);
-  setDataCsvHeaders("/Sensor_3.csv ", mpuHeader);
-  setDataCsvHeaders("/Sensor_4.csv ", mpuHeader);
+  // setDataCsvHeaders("/Sensor_1.csv ", mpuHeader);
+  // setDataCsvHeaders("/Sensor_2.csv ", mpuHeader);
+  // setDataCsvHeaders("/Sensor_3.csv ", mpuHeader);
+  // setDataCsvHeaders("/Sensor_4.csv ", mpuHeader);
 
   delay(2000);
 }
@@ -36,26 +36,80 @@ void setDataCsvHeaders(String fileName, String fileHeaderString) {
 }
 
 
-
-void saveToSDCard(String sensorName) {
-  sensorName = "/" + sensorName + ".csv";
+void checkDataCsvHeaders(String espName, String sensorName) {
 
 
-  dataFile = SD.open(sensorName, FILE_APPEND);
+  String fileName = "/" + espName + "/" + sensorName + ".csv";
+  bool fileExist = SD.exists(fileName);
+
+  if (fileExist) {
+    // Serial.println("Exist");
+  } else {
+    if (SD.mkdir("/" + espName)) {
+      // Serial.println("folder Created With Name => " + espName);
+      dataFile = SD.open(fileName, FILE_WRITE);
+      if (dataFile) {
+        Serial.println("File Created With Name => " + fileName);
+        dataFile.print("Date");
+        dataFile.print(",");
+        dataFile.print("Time");
+        dataFile.print(",");
+        dataFile.print("ax");
+        dataFile.print(",");
+        dataFile.print("ay");
+        dataFile.print(",");
+        dataFile.print("az");
+        dataFile.print(",");
+        dataFile.print("gx");
+        dataFile.print(",");
+        dataFile.print("gy");
+        dataFile.print(",");
+        dataFile.print("gz");
+        dataFile.print(",");
+        dataFile.print("temp");
+        dataFile.println();
+        dataFile.close();
+      } else {
+        // Serial.println("File Creating Failed !");
+      }
+
+    } else {
+      // Serial.println("Error With Creating Folder !");
+    }
+  }
+}
 
 
-  DateTime currentTime = getUpdatedTime();
+void saveToSDCard(String espName, String sensorName, String data) {
+
+
+
+  String fileName = "/" + espName + "/" + sensorName + ".csv";
+
+
+  dataFile = SD.open(fileName, FILE_APPEND);
 
 
 
   if (dataFile) {
-
-    dataFile.print("");
-    dataFile.println();
-    dataFile.close();
+    dataFile.print(currentTime.year());
+    dataFile.print("-");
+    dataFile.print(currentTime.month());
+    dataFile.print("-");
+    dataFile.print(currentTime.day());
+    dataFile.print(",");
+    dataFile.print(currentTime.hour());
+    dataFile.print(":");
+    dataFile.print(currentTime.minute());
+    dataFile.print(":");
+    dataFile.print(currentTime.second());
+    dataFile.print(",");
+    dataFile.println(data);
   } else {
     Serial.println("Error !");
   }
+
+  dataFile.close();
 }
 
 

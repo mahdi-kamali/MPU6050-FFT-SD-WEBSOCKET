@@ -7,7 +7,7 @@ DynamicJsonDocument translateMessage(uint8_t *data, size_t len) {
 
   DynamicJsonDocument doc(2048);
   deserializeJson(doc, String(jsonChar));
-  Serial.println(jsonChar);
+
 
 
   return doc;

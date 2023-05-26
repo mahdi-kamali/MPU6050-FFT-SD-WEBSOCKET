@@ -1028,7 +1028,7 @@ void sendMpuesFFTToServer() {
 
   int i = 0;
 
-  if (sensorOneActive) {
+  if (sensorOneActive || true) {
     doc["data"][i]["sensorName"] = "Sensor_1";
     doc["data"][i]["ax"] = sensorOneFFT.get_AX();
     doc["data"][i]["ay"] = sensorOneFFT.get_AY();

@@ -12,7 +12,5 @@ DateTime getUpdatedTime() {
   timeClient.update();
   DateTime now = DateTime(timeClient.getEpochTime());
   rtc.adjust(now);
-  return  rtc.now();
+  return rtc.now();
 }
-
-

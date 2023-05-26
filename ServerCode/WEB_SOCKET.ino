@@ -14,7 +14,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       Serial.printf("WebSocket client #%u disconnected\n", client->id());
       break;
     case WS_EVT_DATA:
-    
+      handleClientMessage(doc);
       break;
     case WS_EVT_PONG:
     case WS_EVT_ERROR:

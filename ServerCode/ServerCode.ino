@@ -11,8 +11,72 @@
 #include <ArduinoJson.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <FastLED.h>
 
 
+
+// Sensor Object
+class SensorFFT {
+public:
+  float get_AX() const {
+    return AX;
+  }
+
+  void set_AX(float new_AX) {
+    AX = new_AX;
+  }
+
+  float get_AY() const {
+    return AY;
+  }
+
+  void set_AY(float new_AY) {
+    AY = new_AY;
+  }
+
+  float get_AZ() const {
+    return AZ;
+  }
+
+  void set_AZ(float new_AZ) {
+    AZ = new_AZ;
+  }
+
+  float get_GX() const {
+    return GX;
+  }
+
+  void set_GX(float new_GX) {
+    GX = new_GX;
+  }
+
+  float get_GY() const {
+    return GY;
+  }
+
+  void set_GY(float new_GY) {
+    GY = new_GY;
+  }
+
+  float get_GZ() const {
+    return GZ;
+  }
+
+  void set_GZ(float new_GZ) {
+    GZ = new_GZ;
+  }
+
+
+private:
+  String espName;
+  String sesnsorName;
+  float AX = 0;
+  float AY = 0;
+  float AZ = 0;
+  float GX = 0;
+  float GY = 0;
+  float GZ = 0;
+};
 
 
 
@@ -98,6 +162,8 @@ const int RESPONSE_TYPE_MPU_FFT = 7;
 
 
 
+DateTime currentTime;
+
 
 
 void setup() {
@@ -117,16 +183,7 @@ void setup() {
 
 void Task1code(void* parameter) {
   while (true) {
-    DynamicJsonDocument doc(256);
     ws.cleanupClients();
-    digitalWrite(ledPin, ledState);
-    counter++;
-    doc["type"] = 5;
-    doc["message"] = " Hello World !" + String(counter);
-    String temp;
-    serializeJson(doc, temp);
-    ws.textAll(temp);
-    delay(1000);
   }
 }
 
@@ -135,4 +192,7 @@ void Task1code(void* parameter) {
 
 void loop() {
   ArduinoOTA.handle();
+  EVERY_N_SECONDS(1) {
+    currentTime = getUpdatedTime();
+  }
 }
