@@ -1028,7 +1028,7 @@ void sendMpuesFFTToServer() {
 
   int i = 0;
 
-  if (sensorOneActive || true) {
+  if (sensorOneActive) {
     doc["data"][i]["sensorName"] = "Sensor_1";
     doc["data"][i]["ax"] = sensorOneFFT.get_AX();
     doc["data"][i]["ay"] = sensorOneFFT.get_AY();
@@ -1053,7 +1053,6 @@ void sendMpuesFFTToServer() {
     mpu2.getEvent(&accel_event, &gyro_event, &temp_event);
     doc["data"][i]["temp"] = temp_event.temperature;
     i++;
-
   }
   if (sensorThreeActive) {
     doc["data"][i]["sensorName"] = "Sensor_3";
@@ -1063,9 +1062,10 @@ void sendMpuesFFTToServer() {
     doc["data"][i]["gx"] = sensorThreeFFT.get_GX();
     doc["data"][i]["gy"] = sensorThreeFFT.get_GY();
     doc["data"][i]["gz"] = sensorThreeFFT.get_GZ();
-    doc["data"][i]["temp"] = "Temp";
+    sensors_event_t accel_event, gyro_event, temp_event;
+    mpu3.getEvent(&accel_event, &gyro_event, &temp_event);
+    doc["data"][i]["temp"] = temp_event.temperature;
     i++;
-
   }
   if (sensorFourActive) {
     doc["data"][i]["sensorName"] = "Sensor_4";
@@ -1075,9 +1075,10 @@ void sendMpuesFFTToServer() {
     doc["data"][i]["gx"] = sensorFourFFT.get_GX();
     doc["data"][i]["gy"] = sensorFourFFT.get_GY();
     doc["data"][i]["gz"] = sensorFourFFT.get_GZ();
-    doc["data"][i]["temp"] = "Temp";
+    sensors_event_t accel_event, gyro_event, temp_event;
+    mpu4.getEvent(&accel_event, &gyro_event, &temp_event);
+    doc["data"][i]["temp"] = temp_event.temperature;
     i++;
-
   }
 
 

@@ -1,6 +1,6 @@
 void initI2CBus() {
-  I2Cone.begin(SDA_1, SCL_1, 400000);
-  I2Ctwo.begin(SDA_2, SCL_2, 400000);
+  I2Cone.begin(SDA_1, SCL_1);
+  I2Ctwo.begin(SDA_2, SCL_2);
 }
 
 

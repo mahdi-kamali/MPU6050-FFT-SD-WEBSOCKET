@@ -12,6 +12,7 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <FastLED.h>
+#include "time.h"
 
 
 
@@ -171,8 +172,8 @@ void setup() {
   initSdCart();
   initWiFi();
   initTime();
-  initWebSocket();
   getUpdatedTime();
+  initWebSocket();
   initTaksCoreTwo();
   initOTA();
   delay(2000);
@@ -183,7 +184,9 @@ void setup() {
 
 void Task1code(void* parameter) {
   while (true) {
-    ws.cleanupClients();
+    EVERY_N_SECONDS(1) {
+      currentTime = getUpdatedTime();
+    }
   }
 }
 
@@ -192,7 +195,5 @@ void Task1code(void* parameter) {
 
 void loop() {
   ArduinoOTA.handle();
-  EVERY_N_SECONDS(1) {
-    currentTime = getUpdatedTime();
-  }
+  ws.cleanupClients();
 }
